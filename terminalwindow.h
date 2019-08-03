@@ -33,6 +33,7 @@ private slots:
     void copyAvailable(bool);
     void copyInvoked();
     void pasteInvoked();
+    void autoCdInvoked();
     void closeInvoked();
     void finishedInvoked();
 
@@ -41,6 +42,7 @@ private:
     QTermWidget *m_termWidget;
     QAction *m_copy;
     QAction *m_paste;
+    QAction *m_autoCd;
     QAction *m_close;
     QWidget *m_parent;
 };

@@ -38,15 +38,19 @@ TerminalContainer::TerminalContainer(QWidget *parent)
     Core::Command *copyCmd = Core::ActionManager::command("PineappleTerminal.Copy");
     Core::Command *pasteCmd = Core::ActionManager::command("PineappleTerminal.Paste");
 
-    m_copy = new QAction("Copy", this);
+    m_copy = new QAction("&Copy", this);
     m_copy->setShortcut(copyCmd->keySequence());
     connect(m_copy, &QAction::triggered, this, &TerminalContainer::copyInvoked);
     addAction(m_copy);
 
-    m_paste = new QAction("Paste", this);
+    m_paste = new QAction("&Paste", this);
     m_paste->setShortcut(pasteCmd->keySequence());
     connect(m_paste, &QAction::triggered, this, &TerminalContainer::pasteInvoked);
     addAction(m_paste);
+
+    m_autoCd = new QAction("Change &Directory", this);
+    connect(m_autoCd, &QAction::triggered, this, &TerminalContainer::autoCdInvoked);
+    addAction(m_autoCd);
 
     m_close = new QAction("Close", this);
     m_close->setShortcut(QKeySequence::Close);
@@ -116,6 +120,7 @@ void TerminalContainer::contextMenuRequested(const QPoint &point)
     QMenu menu;
     menu.addAction(m_copy);
     menu.addAction(m_paste);
+    menu.addAction(m_autoCd);
     menu.addAction(m_close);
     menu.exec(globalPos);
 }
@@ -136,6 +141,24 @@ void TerminalContainer::copyInvoked()
 void TerminalContainer::pasteInvoked()
 {
     m_termWidget->pasteClipboard();
+}
+
+void TerminalContainer::autoCdInvoked()
+{
+    ProjectExplorer::Project * proj = ProjectExplorer::ProjectTree::currentProject();
+    if (proj) {
+        termWidget()->changeDir(proj->projectDirectory().toString());
+        return;
+    }
+
+    if (Core::IDocument *doc = Core::EditorManager::instance()->currentDocument()) {
+        const QDir dir = doc->filePath().toFileInfo().absoluteDir();
+        if (dir.exists())
+            termWidget()->changeDir(dir.canonicalPath());
+        return;
+    }
+
+    termWidget()->changeDir(QDir::currentPath());
 }
 
 void TerminalContainer::copyAvailable(bool available)
