@@ -25,3 +25,17 @@ $ make
 ```
 
 Then it will be built under `~/.local/share/data/QtProject/qtcreator/plugins/<qtcreator-version>/`
+
+## Quick Start:
+
+After installation (put the compiled `libPineappleTerminal.so` to your `~/.local/share/data/QtProject/qtcreator/plugins/<qtcreator-version>/` folder *OR* somewhere else like `/usr/lib/x86_64-linux-gnu/qtcreator/plugins`, you will see a Terminal pane in the Output Panes area after you launch QtCreator.
+
+### Shortcuts:
+
+By default it's <kbd>Ctrl+Shift+C</kbd> to copy and <kbd>Ctrl+Shift+V</kbd> to paste. You can [update the key binding via QtCreator's setting dialog](https://doc.qt.io/qtcreator/creator-keyboard-shortcuts.html) at `Tools > Options > Environment > Keyboard`. By filting with `PineappleTerminal` you can see the shortcuts provided by this plugin.
+
+Please notice currently you need restart QtCreator to make the shortcut change apply.
+
+### Context Menu:
+
+You should already know what does `Copy` and `Paste` means. Other than that, there is a `Change Directory` menu entry, which means `cd` to current project source directory. If there are no project opened, it will `cd` to the directory which current opend file located at. If still no file opened, it will simply `cd` to current working dir (nearly meaningless action).
