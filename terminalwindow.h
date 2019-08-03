@@ -68,9 +68,6 @@ public:
     virtual void goToNext();
     virtual void goToPrev();
 
-private slots:
-    void termInitialized();
-
 private:
     TerminalContainer *m_terminalContainer;
 };

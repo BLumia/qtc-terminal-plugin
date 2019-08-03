@@ -63,11 +63,16 @@ void TerminalContainer::initializeTerm()
         delete m_termWidget;
     }
 
+    Utils::Environment env = Utils::Environment::systemEnvironment();
+
     m_termWidget = new QTermWidget(0, this);
     m_termWidget->setWindowTitle(tr("Terminal"));
     m_termWidget->setWindowIcon(QIcon());
     m_termWidget->setScrollBarPosition(QTermWidget::ScrollBarRight);
-    qDebug() << m_termWidget->availableColorSchemes();
+//    qDebug() << m_termWidget->availableColorSchemes();
+    // set shell program
+    QString shell { env.value("SHELL") };
+    m_termWidget->setShellProgram(shell.isEmpty() ? "/bin/bash" : shell);
 #if defined(Q_OS_LINUX)
     m_termWidget->setColorScheme("Linux");
     m_termWidget->setKeyBindings("linux");
@@ -96,13 +101,13 @@ void TerminalContainer::initializeTerm()
     ProjectExplorer::Project * proj = ProjectExplorer::ProjectTree::currentProject();
     QString path = proj ? proj->projectDirectory().toString() : QDir::currentPath();
     m_termWidget->setWorkingDirectory(path);
-    Utils::Environment env = Utils::Environment::systemEnvironment();
+
     env.set("TERM_PROGRAM", QString("qtermwidget5"));
     env.set("TERM", QString("xterm-256color"));
     env.set("QTCREATOR_PID", QString("%1").arg(QCoreApplication::applicationPid()));
     m_termWidget->setEnvironment(env.toStringList());
     m_termWidget->startShellProgram();
-    emit termInitialized();
+//    emit termInitialized();
 }
 
 void TerminalContainer::contextMenuRequested(const QPoint &point)
@@ -160,8 +165,6 @@ QWidget *TerminalWindow::outputWidget(QWidget *parent)
 {
     if (!m_terminalContainer)
         m_terminalContainer = new TerminalContainer(parent);
-    connect(m_terminalContainer, &TerminalContainer::termInitialized,
-            this, &TerminalWindow::termInitialized);
     return m_terminalContainer;
 }
 
@@ -196,15 +199,6 @@ void TerminalWindow::visibilityChanged(bool visible)
 
     m_terminalContainer->initializeTerm();
     initialized = true;
-}
-
-void TerminalWindow::termInitialized()
-{
-    if (Core::IDocument *doc = Core::EditorManager::instance()->currentDocument()) {
-        const QDir dir = doc->filePath().toFileInfo().absoluteDir();
-        if (dir.exists())
-            m_terminalContainer->termWidget()->setWorkingDirectory(dir.canonicalPath());
-    }
 }
 
 void TerminalWindow::setFocus()
