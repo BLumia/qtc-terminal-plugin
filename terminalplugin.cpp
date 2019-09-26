@@ -66,6 +66,11 @@ bool TerminalPlugin::initialize(const QStringList &arguments, QString *errorMess
                                                                 Core::Context(Core::Constants::C_GENERAL_OUTPUT_PANE));
     pasteCmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+V")));
 
+    QAction * m_deleteBackward = new QAction("Delete backward", this);
+    Core::Command *deleteBackwardCmd = Core::ActionManager::registerAction(m_deleteBackward, "PineappleTerminal.DeleteBackward",
+                                                                        Core::Context(Core::Constants::C_GENERAL_OUTPUT_PANE));
+    deleteBackwardCmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+W")));
+
 
     return true;
 }

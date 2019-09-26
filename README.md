@@ -36,6 +36,8 @@ By default it's <kbd>Ctrl+Shift+C</kbd> to copy and <kbd>Ctrl+Shift+V</kbd> to p
 
 Please notice currently you need restart QtCreator to make the shortcut change apply.
 
+There are also some shortcut are just a *placeholder* (the plugin itself won't do any extra thing when shortcut triggered) but you still need to config if you would like to use these shortcut but found out it doesn't work. For example the *Delete backward* shortcut is just a placeholder shortcut, which doesn't do anything but just can help you detect shortcut conflict at `Tools > Options > Environment > Keyboard`.
+
 ### Context Menu:
 
-You should already know what does `Copy` and `Paste` means. Other than that, there is a `Change Directory` menu entry, which means `cd` to current project source directory. If there are no project opened, it will `cd` to the directory which current opend file located at. If still no file opened, it will simply `cd` to current working dir (nearly meaningless action).
+You should already know what does `Copy` and `Paste` means. Other than that, there is a `Change Directory` menu entry, which means `cd` to current project source directory which your current opened file at. If there are no project opened, it will `cd` to the directory which current opend file located at. If still no file opened, it will simply `cd` to current working dir (nearly meaningless action).

@@ -53,7 +53,6 @@ TerminalContainer::TerminalContainer(QWidget *parent)
     addAction(m_autoCd);
 
     m_close = new QAction("Close", this);
-    m_close->setShortcut(QKeySequence::Close);
     connect(m_close, &QAction::triggered, this, &TerminalContainer::closeInvoked);
     addAction(m_close);
 
